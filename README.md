@@ -38,61 +38,67 @@ To write a program to implement the the Logistic Regression Using Gradient Desce
 Program to implement the the Logistic Regression Using Gradient Descent.
 Developed by: cholimgapuram sai likitha
 RegisterNumber:  212224230046
-import numpy as np
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import StandardScaler
-
-data = pd.read_csv("Placement_Data (2).csv")
-
-data['status'] = data['status'].map({'Placed': 1, 'Not Placed': 0})
-
-X = data[['ssc_p', 'mba_p']].values
-y = data['status'].values
-
-scaler = StandardScaler()
-X = scaler.fit_transform(X)
-
-m = len(y)
-X = np.c_[np.ones(m), X]
-
+data = pd.read_csv('Placement_Data (1).csv')
+data = data.drop('sl_no', axis=1)
+data = data.drop('salary', axis=1)
+data["gender"] = data["gender"].astype('category')
+data["ssc_b"] = data["ssc_b"].astype('category')
+data["hsc_b"] = data["hsc_b"].astype('category')
+data["degree_t"] = data["degree_t"].astype('category')
+data["workex"] = data["workex"].astype('category')
+data["specialisation"] = data["specialisation"].astype('category')
+data["status"] = data["status"].astype('category')
+data["hsc_s"] = data["hsc_s"].astype('category')
+data["gender"] = data["gender"].cat.codes
+data["ssc_b"] = data["ssc_b"].cat.codes
+data["hsc_b"] = data["hsc_b"].cat.codes
+data["degree_t"] = data["degree_t"].cat.codes
+data["workex"] = data["workex"].cat.codes
+data["specialisation"] = data["specialisation"].cat.codes
+data["status"] = data["status"].cat.codes
+data["hsc_s"] = data["hsc_s"].cat.codes
+print(data)
+x = data.iloc[:, :-1].values
+y = data.iloc[:, -1].values
+theta = np.random.randn(x.shape[1])
 def sigmoid(z):
     return 1 / (1 + np.exp(-z))
-
-def cost_function(X, y, theta):
-    h = sigmoid(X @ theta)
-    return (-1/m) * np.sum(y*np.log(h) + (1-y)*np.log(1-h))
-
-theta = np.zeros(X.shape[1])
-alpha = 0.1
-cost_history = []
-
-for i in range(500):
-    z = X @ theta
-    h = sigmoid(z)
-    gradient = (1/m) * X.T @ (h - y)
-    theta = theta - alpha * gradient
-    
-    cost = cost_function(X, y, theta)
-    cost_history.append(cost)
-
-y_pred = (sigmoid(X @ theta) >= 0.5).astype(int)
-
-accuracy = np.mean(y_pred == y) * 100
-print("Weights:", theta)
-print("Accuracy:", accuracy, "%")
-
-plt.figure()
-plt.plot(cost_history)
-plt.xlabel("Iterations")
-plt.ylabel("Cost")
-plt.title("Logistic Regression using Gradient Descent")
-plt.show()
+def loss(theta, X, y):
+    h = sigmoid(X.dot(theta))
+    return -np.sum(y * np.log(h) + (1 - y) * np.log(1 - h))
+def gradient_descent(theta, X, y, alpha, num_iterations):
+    m = len(y)
+    for i in range(num_iterations):
+        h = sigmoid(X.dot(theta))
+        gradient = X.T.dot(h - y) / m
+        theta -= alpha * gradient
+    return theta
+theta = gradient_descent(theta, x, y, alpha=0.01, num_iterations=1000)
+def predict(theta, X):
+    h = sigmoid(X.dot(theta))
+    y_pred = np.where(h >= 0.5, 1, 0)
+    return y_pred
+y_pred = predict(theta, x)
+accuracy = np.mean(y_pred.flatten() == y)
+print("Accuracy:", accuracy)
+print("Predicted Values:")
+print(y_pred)
+xnew = np.array([[0, 87, 0, 95, 0, 2, 78, 2, 0, 0, 1, 0]])
+y_prednew = predict(theta, xnew)
+print("New Prediction 1:")
+print(y_prednew)
+xnew = np.array([[0, 0, 0, 0, 0, 2, 8, 2, 0, 0, 1, 0]])
+y_prednew = predict(theta, xnew)
+print("New Prediction 2:")
+print(y_prednew)
 */
 ```
 
 ## Output:
-<img width="927" height="997" alt="image" src="https://github.com/user-attachments/assets/d5fd0c96-1d9b-489c-89d0-3527b2e72814" />
+<img width="757" height="535" alt="image" src="https://github.com/user-attachments/assets/7aff0e53-5413-4395-8630-8f826611c07b" />
 
 
 
