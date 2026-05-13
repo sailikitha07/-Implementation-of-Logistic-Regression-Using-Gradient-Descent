@@ -9,28 +9,19 @@ To write a program to implement the the Logistic Regression Using Gradient Desce
 
 ## Algorithm
 1. Import required libraries.
-2. Load the dataset using read_csv().
-3. Convert target column (status) into numeric values:
-4. Placed → 1
-5. Not Placed → 0
-6. Select input features (ssc_p, mba_p) as X.
-7. Select output column (status) as y.
-8. Normalize input data using StandardScaler().
-9. Add bias column (ones) to input data.
-10. Define the sigmoid activation function.
-11. Define the cost function for logistic regression.
-12. Initialize weights (theta) with zeros.
-13. Set learning rate and number of iterations.
-14. Repeat Gradient Descent process:
-15. Calculate predicted values
-16. Compute gradients
-17. Update weights
-18. Calculate and store cost
-19. Predict final output values using sigmoid function.
-20. Convert probabilities into class labels (0 or 1).
-21. Calculate model accuracy.
-22. Print weights and accuracy.
-23. Plot graph between iterations and cost function.
+2. Load the dataset using pandas.
+3. Create a copy of the dataset.
+4. Remove unnecessary columns (sl_no, salary).
+5. Check for null values and duplicates.
+6. Convert categorical data into numerical data using Label Encoding.
+7. Separate input features (x) and target variable (y).
+8. Split the dataset into training and testing data.
+9. Create the Logistic Regression model.
+10. Train the model using training data.
+11. Predict output using test data.
+12. Calculate accuracy of the model.
+13. Generate classification report.
+14. Predict placement status for new student data.
 
 ## Program:
 ```
